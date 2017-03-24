@@ -1,15 +1,3 @@
-<?php
-// Connect to mySQL
-include ('includes/pdo_db_con.php');
-$conn = dbConnectpdo();
-$stmt = $conn->prepare("SELECT * FROM articles where article_id = :article_id ORDER BY article_id DESC");
-$stmt->bindParam(':article_id', $_GET['article_id'], PDO::PARAM_INT);
-$stmt->execute();
-$stmt->setFetchMode(PDO::FETCH_ASSOC);
-
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
   <head>

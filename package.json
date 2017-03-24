@@ -1,0 +1,23 @@
+{
+  "name": "gcl",
+  "version": "1.0.0",
+  "description": "package file",
+  "main": "index.js",
+  "dependencies": {
+    "uikit": "^3.0.0-beta.18"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sfcooper/GCL.git"
+  },
+  "author": "Simon Cooper <cooper.sf@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sfcooper/GCL/issues"
+  },
+  "homepage": "https://github.com/sfcooper/GCL#readme"
+}

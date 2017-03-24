@@ -1,13 +1,12 @@
-<?
-include ('includes/db_con.php');
+<?php
 // Connect to mySQL
-$conn = dbConnect('query');
-//Prepare the SQL query
-$sql = "SELECT * FROM cafes WHERE cafe_area = 'east'";
-//Submit the query and capture the result
-$noofcafes = $conn->query($sql) or die(mysqli_error());
-//find out how many records were retrieved
-$numRows = $noofcafes->num_rows;
+include ('includes/pdo_db_con.php');
+$conn = dbConnectpdo();
+$stmt = $conn->prepare("SELECT * FROM articles where article_id = :article_id ORDER BY article_id DESC");
+$stmt->bindParam(':article_id', $_GET['article_id'], PDO::PARAM_INT);
+$stmt->execute();
+$stmt->setFetchMode(PDO::FETCH_ASSOC);
+
 
 ?>
 
@@ -19,6 +18,7 @@ $numRows = $noofcafes->num_rows;
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!--CSS Files-->
     <link rel="stylesheet" href="css/uikit.min.css" />
+    <title>Gourmet Coffee London - <?php echo $row['cafe_name']; ?></title>
   </head>
   <body>
 <!--Nav code--><?php include ('includes/main_nav.php'); ?>
@@ -29,89 +29,51 @@ $numRows = $noofcafes->num_rows;
         </div>
       <!--End main header img--></div>
 <div class="uk-container"><!--Start of main wrapper-->
-  <div uk-grid>
-      <div class="uk-width-expand@m">
+  <div class="uk-child-width-expand@s" uk-grid><!--Start of grid-->
 
-               <div class="uk-card uk-card-default uk-card-body">
+    <div><!--Start left column-->
+        <div class="uk-card uk-card-default uk-card-body">
+          <article class="uk-article">
+          <?php       while($row = $stmt->fetch())
+                 {?>
+                     <h1 class="uk-article-title"><?php echo $row['article_title'] ?> </h1>
+                     <P>
 
-<h1>East London Coffee</h1>
-<p>I've currently listed a total of <?php echo "$numRows"; ?> cafes in east London.</p>
-               <h3>Map</h3>
-
-
-               <div class="uk-grid-divider uk-child-width-expand@s" uk-grid>
-<iframe async src="https://www.google.com/maps/d/embed?mid=1-7DNq6uwYVO8nRuTGH45OEXa__o&hl=en" width="100%" height="480"></iframe>
-
-</div>
-<br  /><br  />
-
-<div class="uk-section-default">
-
-<table class="uk-table uk-table-striped">
-  <thead>
-  <tr>
-    <th class="uk-width-1-4 uk-text-bold">
-      Cafe
-    </th>
-    <th class="uk-width-1-4 uk-text-bold">
-      Rating
-    </th>
-    <th class="uk-width-1-4 uk-text-bold">
-      Tags
-    </th>
-    <th class="uk-width-1-4 uk-text-bold">
-      More
-    </th>
-  </tr>
-  </thead>
-  <tfoot>
-    <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-</tfoot>
-  <tbody>
+                     <?php echo $row['article_content']; ?>
+                     </P>
+                     <p class="uk-article-meta">
+                      <span class="uk-margin-small-right" uk-icon="icon: tag"></span><?php echo $row['tags']; ?><br />
+                      <span class="uk-margin-small-right" uk-icon="icon: history"></span><?php echo date('j/F/Y',strtotime($row['article_last_updated'])); ?>
+                     </p>
 
 
-  <?php while ($row = $noofcafes->fetch_assoc()){ ?>
-    <tr>
-    <td>
-    <?php echo $row['cafe_name']; ?>
-    </td>
-    <td class="">
-    <?php echo $row['rating']; ?>
-    </td>
-    <td>
-    <?php echo $row['tags']; ?>
-    </td>
-    <td>
-      <a href="cafes_page.php?cafe_id=<?php echo $row['cafe_id']; ?>">View details</a>
-    </td>
-  </tr> <?php }?>
-    </tbody>
-</table>
+            </article>
 
-</div>
-
-</div>
+            <a href="articles_page.php">Back to articles</a>
+            <?php   } ?>
+        </div>
+    </div><!--End left column-->
+    <div class="uk-width-1-3"><!--Start right column-->
+        <div class="uk-card uk-card-default uk-card-body">Item</div>
+    </div><!--End right column-->
 
 
 
 
 
-</div><!--End of left column-->
 
 
 
 
-      <div class="uk-width-1-3@m">
-        <div>
-               <div class="uk-card uk-card-default uk-card-body">
 
-           </div>
-         </div>
-      </div><!--End of right column-->
+
+
+
+
+
+
+
+
   </div><!--End of main grid-->
 </div><!--End of main wrapper-->
 

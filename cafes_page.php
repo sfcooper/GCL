@@ -1,11 +1,7 @@
 <?php
 // Connect to mySQL
-//include ('includes/pdo_db_con.php');
-//$conn = dbConnect();
-$servername = "internal-db.s121974.gridserver.com";
-$username = "db121974";
-$password = "NepTune21?~";
-$conn = new PDO("mysql:host=$servername;dbname=db121974_gcl", $username, $password);
+include ('includes/pdo_db_con.php');
+$conn = dbConnectpdo();
 $stmt = $conn->prepare("SELECT * FROM cafes where cafe_id = :cafe_id ORDER BY cafe_id DESC");
 $stmt->bindParam(':cafe_id', $_GET['cafe_id'], PDO::PARAM_INT);
 $stmt->execute();
